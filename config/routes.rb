@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
 
+  resources :plants, only: [:index, :show, :create] do
+    resources :tips, only: [:show, :index]
+  end 
+
+  resources :tips, only: [:show, :index, :create]
+
+  # get '/plants', to: 'plants#index'
+  # get '/plants/:id', to: 'plants#show'
+  # post '/plants', to: 'plants#create'
+
+  get '/users', to: 'users#index'
+  get '/users/:id', to: 'users#show'
+  #nancy did '/me' for users show
+
   post '/signup', to: 'users#create'
   get '/current-user', to: 'users#get_current_user'
   
