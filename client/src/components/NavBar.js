@@ -23,6 +23,9 @@ const Navbar = () => {
                 <button onClick={logoutUser}>Logout</button>
                 <hr/>
                 <h1>Welcome {user.username}</h1>
+                <NavLink to='/plants'>
+                    <button>Plants</button>
+                </NavLink>
             </div>
         )
     } else {
@@ -33,9 +36,6 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink to='/signup'>
                     <button>Signup</button>
-                </NavLink>
-                <NavLink to='/plants'>
-                    <button>Plants</button>
                 </NavLink>
                 <hr/>
             </div>

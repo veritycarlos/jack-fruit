@@ -31,7 +31,7 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
     const [user, setUser] = useState({})
     const [loggedIn, setLoggedIn] = useState(false)
-    // const [stories, setStories] = useState ({})
+    const [plants, setPlants] = useState ({})
 
     useEffect(() => {
         fetch(`/users/id`)
@@ -42,31 +42,52 @@ function UserProvider({ children }) {
                 setLoggedIn(false)
             } else {
                 setLoggedIn(true)
-                // getStories()
+                getPlants()
             }
         })
     }, [])
 
+    const getPlants = () => {
+        fetch('/plants')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            setPlants(data)
+        })
+    }
+
+    const addPlant = (plant) => {
+        fetch('/plants', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(plant)
+        })
+        .then(res => res.json())
+        .then(data => {
+            setPlants([...plants, data])
+        })
+    }
+
     const login = (user) => {
         setUser(user)
-//         getStories()
+        getPlants()
         setLoggedIn(true)
     }
 
     const logout = () => {
         setUser({})
-//         setStories([])
+        setPlants([])
         setLoggedIn(false)
     }
 
     const signup = (user) => {
         setUser(user)
-//         getStories()
+        getPlants()
         setLoggedIn(true)
     }
 
     return (
-        <UserContext.Provider value={{ user, login, logout, signup, loggedIn }}>
+        <UserContext.Provider value={{ user, login, logout, signup, loggedIn, plants, addPlant }}>
             {children}
         </UserContext.Provider>
     )
@@ -75,47 +96,3 @@ function UserProvider({ children }) {
 export { UserContext, UserProvider }; 
 
 //This is what gives us global state.
-
-//NANCY
-
-//     const getStories = () => {
-//         fetch('/stories')
-//         .then(res => res.json())
-//         .then(data => {
-//             console.log(data)
-//             setStories(data)
-//         })
-//     }
-
-//     const addStory = (story) => {
-//         fetch('/stories', {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json'},
-//             body: JSON.stringify(story)
-//         })
-//         .then(res => res.json())
-//         .then(data => {
-//             setStories([...stories, data])
-//         })
-//     }
-
-//     const login = (user) => {
-//         setUser(user)
-//         getStories()
-//         setLoggedIn(true)
-//     }
-
-//     const logout = () => {
-//         setUser({})
-//         setStories([])
-//         setLoggedIn(false)
-//     }
-
-//     const signup = (user) => {
-//         setUser(user)
-//         getStories()
-//         setLoggedIn(true)
-//     }
-
-//     return (
-//     <UserContext.Provider value={{ loggedIn, stories, addStory}} >

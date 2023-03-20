@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
+import PlantLink from './PlantLink'
+import {NavLink} from 'react-router-dom'
 
 function Plants() {
     const[plants, setPlants] = useState([])
-
-
 
     useEffect(() => {
         fetch('/plants')
@@ -13,15 +13,30 @@ function Plants() {
             })
     }, [])
 
-    const plantList = plants.map(p => <li>{p.name}</li>)
+    const plantList = plants.map(p => <PlantLink key={p.id} plant={p}/>)
 
-
+    const link = {
+        width: '100px',
+        padding: '12px',
+        margin: '0 6px 6px',
+        textDecoration: 'none',
+        color: 'white',
+        background: 'black'
+    }
+    
     return (
-        
+        <>
         <div>
             <h1>Plants</h1>
             {plantList}
         </div>
+        <nav>
+        <NavLink
+        to="/plants/new"
+        style={link}
+        >Add Plant</NavLink>
+        </nav>
+        </>
     )
 }
 

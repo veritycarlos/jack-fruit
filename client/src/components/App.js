@@ -7,6 +7,8 @@ import NavBar from "./NavBar";
 import SignUp from "./SignUp";
 import LogIn from "./LogIn";
 import Plant from "./Plant"
+import EditPlant from "./EditPlant";
+import PlantForm from "./PlantForm";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route exact path="/" element = {<Home />} />
           <Route exact path="/plants" element = {<Plants />} />
           <Route exact path="/plants/:id" element = {<Plant />} />
+          <Route exact path="/plants/:id/edit" element = {<EditPlant />} />
+          <Route exact path="/plants/new" element = {<PlantForm />} />
           <Route exact path="/signup" element = {<SignUp />} />
           <Route exact path="/login" element = {<LogIn />} />
         </Routes>
