@@ -1,93 +1,149 @@
-// import React from 'react'
+//   function handleSubmit(e) {
+//     e.preventDefault();
+//     const formData = {
+//       username,
+//       password,
+//       passwordConfirmation
+//     };
+//     fetch("/campers", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(formData),
+//     }).then((r) => {
+//       if (r.ok) {
+//         r.json().then((camper) => {
+//           setUsername("");
+//           setPassword("");
+//           setPasswordConfirmation("");
+//           setErrors([]);
+//           onAddCamper(camper);
+//         });
+//       } else {
+//         r.json().then((err) => setErrors(err.errors));
+//       }
+//     });
+//   }
 
-// function SignUp() {
 //   return (
-//     <div>
-//         <h1>SignUp</h1>
-//     </div>
-//   )
+//     <>
+//         <h2>SignUp</h2>
+//         <form onSubmit={handleSubmit}>
+//         <div>
+//             <label htmlFor="username">Username: </label>
+//             <input
+//                 type="text"
+//                 id="username"
+//                 value={username}
+//                 onChange={(e) => setUsername(e.target.value)}
+//             />
+//         </div>
+//         <br/>
+//         <div>
+//             <label htmlFor="password">Password: </label>
+//             <input
+//             type="text"
+//             id="password"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             />
+//         </div>
+//         <br/>
+//         <div>
+//                 <label htmlFor="password_confirmation">Password Confirmation: </label>
+//                 <input
+//                     type="password"
+//                     id="password_confirmation"
+//                     value={passwordConfirmation}
+//                     onChange={(e) => setPasswordConfirmation(e.target.value)}
+//                 />
+//         </div>
+//         <br/>
+//         {errors.map((err) => (
+//             <p key={err} style={{ color: "red" }}>
+//             {err}
+//             </p>
+//         ))}
+//         <button type="submit">Submit</button>
+//         </form>
+//     </>
+//   );
 // }
 
-// export default SignUp
-import { useState } from "react";
+// export default Signup
+import React, { useState, useContext } from 'react'
+import { UserContext } from '../context/user'
+import { useNavigate } from 'react-router-dom'
 
-function Signup({ onAddCamper }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("")
-  const [errors, setErrors] = useState([]);
+const SignUp = () => {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    //const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [errorsList, setErrorsList] = useState([])
+    const {signup} = useContext(UserContext)
+    const navigate = useNavigate()
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const formData = {
-      username,
-      password,
-      passwordConfirmation
-    };
-    fetch("/campers", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    }).then((r) => {
-      if (r.ok) {
-        r.json().then((camper) => {
-          setUsername("");
-          setPassword("");
-          setPasswordConfirmation("");
-          setErrors([]);
-          onAddCamper(camper);
-        });
-      } else {
-        r.json().then((err) => setErrors(err.errors));
-      }
-    });
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        fetch('/signup', {
+            // config obj
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              //  what we're sending to backend
+                username: username,     
+                password: password
+                //password_confirmation: passwordConfirmation
 
-  return (
-    <>
-        <h2>SignUp</h2>
-        <form onSubmit={handleSubmit}>
+            })
+        })
+        .then(res => res.json())
+        .then(user => {
+            if (!user.errors) {
+                signup(user)
+                navigate ('/')
+            } else {
+                setUsername("")
+                setPassword("")
+                //setPasswordConfirmation("")
+                const errorLis = user.errors.map(e => <li>{e}</li>)
+                setErrorsList(errorLis)
+            }            
+        })
+    }
+
+    return (
         <div>
-            <label htmlFor="username">Username: </label>
-            <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-        </div>
-        <br/>
-        <div>
-            <label htmlFor="password">Password: </label>
-            <input
-            type="text"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            />
-        </div>
-        <br/>
-        <div>
-                <label htmlFor="password_confirmation">Password Confirmation: </label>
+            <form onSubmit={handleSubmit}>
+                <label>Username: </label>
+                <input 
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                /> <br/>
+                <label>Password: </label>
+                <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                /> <br/>
+                {/* <label>Confirm Password: </label>
                 <input
                     type="password"
                     id="password_confirmation"
                     value={passwordConfirmation}
                     onChange={(e) => setPasswordConfirmation(e.target.value)}
-                />
+                /> <br/> */}
+                <input type="submit" />
+            </form>
+            <ul>
+                {errorsList}
+            </ul>
         </div>
-        <br/>
-        {errors.map((err) => (
-            <p key={err} style={{ color: "red" }}>
-            {err}
-            </p>
-        ))}
-        <button type="submit">Submit</button>
-        </form>
-    </>
-  );
+    )
 }
 
-export default Signup
+export default SignUp

@@ -13,6 +13,8 @@ function App() {
     <div className="App">
       <UserProvider>
         <NavBar />
+        <br/>
+        <br/>
         <Routes>
           <Route exact path="/" element = {<Home />} />
           <Route exact path="/plants" element = {<Plants />} />

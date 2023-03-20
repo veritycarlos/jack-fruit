@@ -30,26 +30,46 @@ const UserContext = React.createContext();
 
 function UserProvider({ children }) {
     const [user, setUser] = useState({})
+    const [loggedIn, setLoggedIn] = useState(false)
+    // const [stories, setStories] = useState ({})
 
-        useEffect(() => {
-            fetch('/users/:id')
-            .then(res => res.json())
-            .then(data => {
-                setUser(data)
-            //     if (data.error) {
-            //         setLoggedIn(false)
-            //     } else {
-            //         setLoggedIn(true)
-            //         getStories()
-            //     }
-            })
-        }, [])
+    useEffect(() => {
+        fetch(`/users/id`)
+        .then(res => res.json())
+        .then(data => {
+            setUser(data)
+            if (data.error) {
+                setLoggedIn(false)
+            } else {
+                setLoggedIn(true)
+                // getStories()
+            }
+        })
+    }, [])
 
-  return (
-    <UserContext.Provider value={{ user }}>
-        {children}
-    </UserContext.Provider>
-  )
+    const login = (user) => {
+        setUser(user)
+//         getStories()
+        setLoggedIn(true)
+    }
+
+    const logout = () => {
+        setUser({})
+//         setStories([])
+        setLoggedIn(false)
+    }
+
+    const signup = (user) => {
+        setUser(user)
+//         getStories()
+        setLoggedIn(true)
+    }
+
+    return (
+        <UserContext.Provider value={{ user, login, logout, signup, loggedIn }}>
+            {children}
+        </UserContext.Provider>
+    )
 }
 
 export { UserContext, UserProvider }; 
@@ -57,23 +77,6 @@ export { UserContext, UserProvider };
 //This is what gives us global state.
 
 //NANCY
-
-//     const [loggedIn, setLoggedIn] = useState(false)
-//     const [stories, setStories] = useState ({})
-
-//     useEffect(() => {
-//         fetch('/me')
-//         .then(res => res.json())
-//         .then(data => {
-//             setUser(data)
-//             if (data.error) {
-//                 setLoggedIn(false)
-//             } else {
-//                 setLoggedIn(true)
-//                 getStories()
-//             }
-//         })
-//     }, [])
 
 //     const getStories = () => {
 //         fetch('/stories')
@@ -115,4 +118,4 @@ export { UserContext, UserProvider };
 //     }
 
 //     return (
-//     <UserContext.Provider value={{login, logout, signup, loggedIn, stories, addStory}} >
+//     <UserContext.Provider value={{ loggedIn, stories, addStory}} >

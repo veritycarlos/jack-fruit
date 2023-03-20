@@ -1,21 +1,26 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 
 function Plants() {
-    // const[plants, setPlants] = useState([])
+    const[plants, setPlants] = useState([])
 
-    // useEffect(() => {
-    //     fetch('http://localhost:3000/plants')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setPlants(data)
-    //         })
-    // }, [])
 
-    // const plantsList = plants.map( p => <li>{p.name}</li>)
+
+    useEffect(() => {
+        fetch('/plants')
+            .then(res => res.json())
+            .then(data => {
+                setPlants(data)
+            })
+    }, [])
+
+    const plantList = plants.map(p => <li>{p.name}</li>)
+
 
     return (
+        
         <div>
             <h1>Plants</h1>
+            {plantList}
         </div>
     )
 }
