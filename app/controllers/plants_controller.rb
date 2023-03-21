@@ -21,7 +21,7 @@ class PlantsController < ApplicationController
     def show
         plant = Plant.find_by(id: params[:id])
         if plant
-            render json: plant
+            render json: plant, include: :tips
         else
             render json: { error: "Plant not found" }, status: :unauthorized
         end
