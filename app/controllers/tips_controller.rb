@@ -10,15 +10,15 @@ class TipsController < ApplicationController
         render json: tips, include: :plant
     end 
     
-    # def show
-    #     if params[:plant_id]
-    #         plant = Plant.find(params[:plant_id])
-    #         tips = plant.tips
-    #     else
-    #         tips = Tip.all
-    #     end
-    #     render json: tips, include: :plant
-    # end 
+    def show
+        if params[:plant_id]
+            plant = Plant.find(params[:plant_id])
+            tips = plant.tips
+        else
+            tips = Tip.all
+        end
+        render json: tips, include: :plant
+    end 
 
     def create
         tip = Tip.create(tip_params)

@@ -45,8 +45,8 @@ function EditPlant() {
       <h1>Edit {plant.name}</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="plantname" >Plant:</label>
-          <input type="text" id="plantname" value={name} onChange={handleChange} autoFocus= {true}/>
+          <label htmlFor="name" >Plant:</label>
+          <input type="text" id="name" value={name} onChange={handleChange} autoFocus= {true}/>
         </div>
         <br/>
         <input type="submit" value="Update Plant"></input>

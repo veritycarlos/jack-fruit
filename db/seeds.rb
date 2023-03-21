@@ -11,4 +11,6 @@
 # Plant.create(name: "Lavender", image: "https://cdn.shopify.com/s/files/1/0156/0137/products/Lavender_plant_1200x960_c5a8afe8-38a9-4679-8769-1c0805dd5aec.jpg")
 # Plant.create(name: "Basil", image: "https://www.trees.com/wp-content/uploads/files/inline-images/types-of-basil/Genovese-Basil.jpg")
 
-User.create(username: "Greenthumb", password_digest: "greenthumb")
+# User.create(username: "Greenthumb", password_digest: "greenthumb")
+
+# Tip.create(comment: "Plant in full sun", title: "Sunflower Tip", rating: "5", user_id: "2", plant_id: "1")

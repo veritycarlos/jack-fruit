@@ -32,6 +32,9 @@ function UserProvider({ children }) {
     const [user, setUser] = useState({})
     const [loggedIn, setLoggedIn] = useState(false)
     const [plants, setPlants] = useState ({})
+    const [plant, setPlant] = useState({})
+    const [tips, setTips] = useState ({})
+    const [tip, setTip] = useState({})
 
     useEffect(() => {
         fetch(`/users/id`)
@@ -56,6 +59,14 @@ function UserProvider({ children }) {
         })
     }
 
+    const getTips = () => {
+        fetch(`/plants/${plant.id}/tips/${tip.id}`)
+        .then(res => res.json())
+        .then(data => {
+            setTips(data)
+        })
+    }
+
     const addPlant = (plant) => {
         fetch('/plants', {
             method: 'POST',
@@ -68,9 +79,22 @@ function UserProvider({ children }) {
         })
     }
 
+    const addTip = (tip) => {
+        fetch(`/plants/${plant.id}/tips`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(tip)
+        })
+        .then(res => res.json())
+        .then(data => {
+            setTips([...tips, data])
+        })
+    }
+
     const login = (user) => {
         setUser(user)
         getPlants()
+        getTips()
         setLoggedIn(true)
     }
 
@@ -83,11 +107,12 @@ function UserProvider({ children }) {
     const signup = (user) => {
         setUser(user)
         getPlants()
+        getTips()
         setLoggedIn(true)
     }
 
     return (
-        <UserContext.Provider value={{ user, login, logout, signup, loggedIn, plants, addPlant }}>
+        <UserContext.Provider value={{ user, login, logout, signup, loggedIn, plants, tips, addPlant, addTip }}>
             {children}
         </UserContext.Provider>
     )

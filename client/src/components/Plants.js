@@ -4,6 +4,11 @@ import {NavLink} from 'react-router-dom'
 
 function Plants() {
     const[plants, setPlants] = useState([])
+    const[tips, setTips] = useState([])
+    const [user, setUser]=useState([])
+    const [plant, setPlant] =useState({})
+
+
 
     useEffect(() => {
         fetch('/plants')
@@ -23,7 +28,7 @@ function Plants() {
         color: 'white',
         background: 'black'
     }
-    
+
     return (
         <>
         <div>

@@ -9,6 +9,14 @@ class PlantsController < ApplicationController
         plant = Plant.create!(plant_params)
         render json: plant, status: :created 
     end 
+    # def create
+    #     plant = current_user.plants.create(command_params)
+    #     if plant.valid?
+    #         render json: Plant
+    #     else
+    #         render json: {errors: plants.errors.full_messages}. status: :unprocessable_entity 
+    #     end 
+    # end 
 
     def show
         plant = Plant.find_by(id: params[:id])

@@ -17,6 +17,7 @@ const Navbar = () => {
         })
     }
 
+
     if (loggedIn) {
         return (
             <div>
@@ -25,6 +26,9 @@ const Navbar = () => {
                 <h1>Welcome {user.username}</h1>
                 <NavLink to='/plants'>
                     <button>Plants</button>
+                </NavLink>
+                <NavLink to="/tips" >
+                    <button>Tips</button>
                 </NavLink>
             </div>
         )
